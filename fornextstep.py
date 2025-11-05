@@ -25,9 +25,7 @@ def _build_parser():
 def _main():
     parser = _build_parser()
     args = parser.parse_args()
-        # Expose CLI values as variables used in the notebook
 
-    # --- injected: promote CLI args to globals so the rest of the file can see them ---
     global PROJECT_ROOT, IMAGE_PATH, LABEL_JSON_DIR, PRED_SAVE_DIR, WEIGHTS_PATH, TMP_WORK_DIR, YAML_PATH
     PROJECT_ROOT   = Path(args.project_root)
     IMAGE_PATH     = Path(args.image_path)
@@ -37,18 +35,8 @@ def _main():
     TMP_WORK_DIR   = Path(args.tmp_work_dir)
     YAML_PATH      = Path(args.yaml_path)
 
-    # Expose CLI values as variables used in the notebook
-# (replaced by CLI arg)         PROJECT_ROOT = Path(args.project_root)
-# (replaced by CLI arg)         IMAGE_PATH = Path(args.image_path)
-# (replaced by CLI arg)         LABEL_JSON_DIR = Path(args.label_json_dir)
-# (replaced by CLI arg)         PRED_SAVE_DIR = Path(args.pred_save_dir)
-# (replaced by CLI arg)         WEIGHTS_PATH = Path(args.weights_path)
-# (replaced by CLI arg)         TMP_WORK_DIR = Path(args.tmp_work_dir)
-# (replaced by CLI arg)         YAML_PATH = Path(args.yaml_path)
-        
 
 if __name__ == "__main__":
-    # Call _main() to initialize CLI args and variables, then fall through to body.
     _main()
 
 
@@ -61,16 +49,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 import yaml
 
-# ===== 경로 설정 =====
-# (replaced by CLI arg) PROJECT_ROOT   = Path("/home/piai/yejin/nscaleup")
-# (replaced by CLI arg) IMAGE_PATH     = PROJECT_ROOT / "data" / "images" / "img_00113.jpg"  # ← 대상 이미지로 변경
-# (replaced by CLI arg) LABEL_JSON_DIR = PROJECT_ROOT / "data" / "labels"                    # GT json 폴더
-# (replaced by CLI arg) PRED_SAVE_DIR  = PROJECT_ROOT / "masks_3"                            # ★ eval이 저장하는 pred 마스크 폴더
-# (replaced by CLI arg) WEIGHTS_PATH   = PROJECT_ROOT / "runs/3cls_20251001_080453/best_miou.pt"
-# (replaced by CLI arg) TMP_WORK_DIR   = PROJECT_ROOT / "tmp_single_eval"                    # 임시 split/dummy 마스크
-# (replaced by CLI arg) YAML_PATH = PROJECT_ROOT / "meta" / "classes_3.yaml"  # 당신 yaml 경로
-
-# ===== eval 설정 (너의 eval_deeplabv3 인자에 맞춤) =====
+# ===== eval 설정 =====
 NUM_CLASSES = 4
 IMG_SIZE    = 896
 BATCH_SIZE  = 1
@@ -79,8 +58,6 @@ BATCH_SIZE  = 1
 def load_class_map(yaml_path: Path):
     with open(yaml_path, "r", encoding="utf-8") as f:
         y = yaml.safe_load(f)
-    # y["map"] 안의 key는 문자열일 테니 그대로 넣고,
-    # 숫자열("1")뿐 아니라 정수 키(1)도 같이 매핑해 둠
     m = {}
     for k, v in y.get("map", {}).items():
         m[k] = int(v)
