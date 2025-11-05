@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+.venv/ .env
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+# 노트북 대형 출력 피하기: 대형 이미지는 LFS 권장
+
+# ML outputs / artifacts
+runs/
+logs/
+masks_3/
+tmp_*/
+tmp*/
+viz_eval_overlays/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.bin
+*.npz
+*.npy
+*.h5
+*.tar
+*.zip
+
+# Data
+data/
+datasets/
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.csv
+*.tsv
+
+# Editors
+.vscode/
+.idea/
+.DS_Store
