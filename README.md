@@ -40,6 +40,19 @@ pip install -r requirements.txt
 
 ---
 
+## 데이터 (Dataset)
+
+- 총 이미지: **614장**
+- 분할 방식: `tools/make_splits.py`로 train/val 분할 (`--val_ratio 0.2 --seed 42`)
+- 실제 분할 수는 `splits/*.txt` 기준 (아래 명령으로 확인 가능)
+  ```bash
+  wc -l splits/train.txt splits/val.txt
+  ```
+- 이미지/마스크 경로: `data/images`, `masks_3`
+- 클래스 정의: `meta/classes_3.yaml` (num_classes=4; background 포함)
+
+---
+
 ## 라벨 통합 규칙 (5 → 3 Classes)
 
 | 기존 ID | 기존 의미              | 변경 ID | 변경 의미  |
@@ -52,13 +65,19 @@ pip install -r requirements.txt
 
 `meta/classes_3.yaml` 예시:
 ```yaml
-num_classes: 4  # background 포함
-id2name:
+classes:
   0: background
-  1: 지형
-  2: 건축물
-  3: 음영
-ignore_index: 255
+  1: 1
+  2: 2
+  3: 3
+
+map:
+  "지형": 1
+  "건축물": 2
+  "음영": 3
+  "1": 1
+  "2": 2
+  "3": 3
 ```
 
 ---
@@ -124,6 +143,8 @@ python -m src.eval_deeplabv3 \
 | 1 | 지형 | 0.7076 | 0.8288 |
 | 2 | 건축물 | 0.5218 | 0.6858 |
 | 3 | 음영 | 0.2561 | 0.4077 |
+
+- 평가 대상: `splits/val.txt`에 포함된 이미지 전량(614장 중 validation split)
 
 **요약**
 - Pixel Accuracy 0.87, mIoU 0.59, mF1 0.71  
